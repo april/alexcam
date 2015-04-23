@@ -3,14 +3,12 @@ var mirror = {};
 
 function playbackVideo(stream) {
 	'use strict';
-	var video;
-	video = document.querySelector('video');
 	
 	if (stream instanceof LocalMediaStream) {
-		video.src = window.URL.createObjectURL(stream); // initial page playback
+		mirror.video.src = window.URL.createObjectURL(stream); // initial page playback
 	} else {
-		video.src = mirror.recorded_videos[0]; // the unending stream of delayed videos
-		video.onended = function () {
+		mirror.video.src = mirror.recorded_videos[0]; // the unending stream of delayed videos
+		mirror.video.onended = function () {
             if (mirror.delayed === true) {
                 playbackVideo(true);
             }
@@ -68,6 +66,7 @@ $(document).ready(function () {
 	mirror.defaultdelay = 5;
 	mirror.delay = mirror.defaultdelay;
 	mirror.recorded_videos = [];
+    mirror.video = document.querySelector('video');
 
 	$("#delay").button().on("click", function () {
 		if (mirror.delayed === true) {

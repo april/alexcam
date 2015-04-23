@@ -36,7 +36,7 @@ function delayedStream(stream) {
     'use strict';
     if (mirror.recorded_videos < 2) {
         $("#delay").button("option", "label", "Buffering...");
-        setTimeout(delayedStream, mirror.delay * 500);
+        setTimeout(delayedStream, 100);
         return (false);
     }
     

@@ -9,10 +9,10 @@ function playbackVideo(stream) {
 	} else {
 		mirror.video.src = mirror.recorded_videos[0]; // the unending stream of delayed videos
 		mirror.video.onended = function () {
-            if (mirror.delayed === true) {
-                playbackVideo(true);
-            }
-        };
+			if (mirror.delayed === true) {
+				playbackVideo(true);
+			}
+		};
 	}
 }
 
@@ -30,18 +30,20 @@ function recordVideo(stream) {
 	mirror.recorder.start(mirror.delay * 500);
 }
 
-function delayedStream(stream) {
-    'use strict';
-    if (mirror.recorded_videos < 2) {
-        $("#delay").button("option", "label", "Buffering...");
-        setTimeout(delayedStream, 100);
-        return (false);
-    }
-    
-    // In case it was set to Buffering..., or it's delayed
-    $("#delay").button("option", "label", "Resume Normal Playback");
-    
-    playbackVideo(true);
+function delayedStream() {
+	'use strict';
+	var delayButton = $("#delay");
+
+	if (mirror.recorded_videos < 2) {
+		delayButton.button("option", "label", "Buffering...");
+		setTimeout(delayedStream, 100);
+		return (false);
+	}
+	
+	// In case it was set to Buffering..., or it's delayed
+	delayButton.button("option", "label", "Resume Normal Playback");
+	
+	playbackVideo(true);
 }
 
 function startVideoStream() {
@@ -53,7 +55,7 @@ function startVideoStream() {
 	navigator.getUserMedia({audio: false, video: true}, function (stream) {
 		mirror.stream = stream;
 		playbackVideo(stream);
-        recordVideo(stream);
+		recordVideo(stream);
 	}, function () {
 		document.querySelector('body').innerHTML = "<p>sorry, no media support</p>";
 	});
@@ -66,16 +68,16 @@ $(document).ready(function () {
 	mirror.defaultdelay = 5;
 	mirror.delay = mirror.defaultdelay;
 	mirror.recorded_videos = [];
-    mirror.video = document.querySelector('video');
+	mirror.video = document.querySelector('video');
 
 	$("#delay").button().on("click", function () {
 		if (mirror.delayed === true) {
 			mirror.delayed = false;
-            $("#delay").button("option", "label", "Delay Playback " + mirror.delay + " Seconds");
+			$("#delay").button("option", "label", "Delay Playback " + mirror.delay + " Seconds");
 			playbackVideo(mirror.stream);
 		} else {
 			mirror.delayed = true;
-			delayedStream(mirror.stream);
+			delayedStream();
 		}
 	});
 
@@ -90,15 +92,15 @@ $(document).ready(function () {
 		change: function () {
 			mirror.delay = $("#seconds").slider("option", "value");
 			$("#delay").button("option", "label", "Delay Playback " + mirror.delay + " Seconds");
-            
-            // Jump to normal playback, stop the recorder, delete all previously recorded videos, and then start buffering again
-            playbackVideo(mirror.stream);
-            mirror.recorder.stop();
-            for (i = 0; i < mirror.recorded_videos.length; i += 1) {
-                window.URL.revokeObjectURL(mirror.recorded_videos[i]);
-            }
-            mirror.recorded_videos = [];
-            recordVideo(mirror.stream);
+			
+			// Jump to normal playback, stop the recorder, delete all previously recorded videos, and then start buffering again
+			playbackVideo(mirror.stream);
+			mirror.recorder.stop();
+			for (i = 0; i < mirror.recorded_videos.length; i += 1) {
+				window.URL.revokeObjectURL(mirror.recorded_videos[i]);
+			}
+			mirror.recorded_videos = [];
+			recordVideo(mirror.stream);
 		}
 	});
 

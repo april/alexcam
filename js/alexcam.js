@@ -85,6 +85,10 @@ $(document).ready(function () {
     }
   });
 
+  $('#fullscreen').button().on('click', function () {
+    mirror.video.mozRequestFullScreen();
+  });
+
   $('#seconds').slider({
     min: 1,
     max: 30,

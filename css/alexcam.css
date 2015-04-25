@@ -1,9 +1,34 @@
-video {
-    height: 100%;
-    width: 100%;
+#delaylabel, #delayAdjust, #seconds {
+  float: left;
+  display: inline-block;
+}
+
+#delayAdjust {
+  border: 0;
+  margin-left: 1em;
+  margin-top: .4em;
 }
 
 #seconds {
-    display: inline-block;
-    width: 10em;
+  display: inline-block;
+  margin-top: .6em;
+  margin-left: .5em;
+  margin-right: 1em;
+  width: 10em;
+}
+
+#fullscreenlabel {
+  display: inline-block;
+  float: right;
+}
+
+video {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1em;
+}
+
+#video-container {
+  clear: both;
 }

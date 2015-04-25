@@ -21,6 +21,7 @@ function recordVideo(stream) {
 
   mirror.recorder = new MediaStreamRecorder(stream); // eventually move this into the app itself
   mirror.recorder.mimeType = 'video/webm';
+
   mirror.recorder.ondataavailable = function (blob) {
     mirror.recordedVideos.push(window.URL.createObjectURL(blob));
     if (mirror.recordedVideos.length > 2) {
@@ -28,6 +29,7 @@ function recordVideo(stream) {
       mirror.recordedVideos.shift();
     }
   };
+
   mirror.recorder.start(mirror.delay * 500);
 }
 
@@ -35,7 +37,7 @@ function delayedStream() {
   'use strict';
   var delayButton = $('#delay');
 
-  if (mirror.recordedVideos < 2) {
+  if (mirror.recordedVideos.length < 2) {
     delayButton.button('option', 'label', 'Buffering...');
     setTimeout(delayedStream, 100);
     return false;

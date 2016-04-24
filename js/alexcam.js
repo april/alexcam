@@ -21,6 +21,8 @@ function recordVideo(stream) {
 
   mirror.recorder = new MediaStreamRecorder(stream); // eventually move this into the app itself
   mirror.recorder.mimeType = 'video/webm';
+  mirror.recorder.width = 640;
+  mirror.recorder.height = 480;
 
   mirror.recorder.ondataavailable = function (blob) {
     mirror.recordedVideos.push(window.URL.createObjectURL(blob));
@@ -93,11 +95,14 @@ $(document).ready(function () {
 
   $('#seconds').slider({
     min: 1,
-    max: 30,
+    max: 60,
     value: mirror.defaultdelay,
     create: function () {
       mirror.delay = $('#seconds').slider('option', 'value');
       $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+    },
+    slide: function (event, ui) {
+      $('#delay').button('option', 'label', 'Delay Playback ' + ui.value + ' Seconds');
     },
     change: function () {
       mirror.delay = $('#seconds').slider('option', 'value');

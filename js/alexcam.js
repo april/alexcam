@@ -1,10 +1,10 @@
-/*global $, console, LocalMediaStream, MediaStreamRecorder */
+/*global $, console, MediaStream, MediaStreamRecorder */
 var mirror = {};
 
 function playbackVideo(stream) {
   'use strict';
 
-  if (stream instanceof LocalMediaStream) {
+  if (stream instanceof MediaStream) {
     mirror.video.src = window.URL.createObjectURL(stream); // initial page playback
   } else {
     mirror.video.src = mirror.recordedVideos[0]; // the unending stream of delayed videos
@@ -86,7 +86,9 @@ $(document).ready(function () {
   });
 
   $('#fullscreen').button().on('click', function () {
-    mirror.video.mozRequestFullScreen();
+    var el = mirror.video;
+    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+    rfs.call(el);
   });
 
   $('#seconds').slider({

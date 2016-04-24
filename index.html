@@ -11,10 +11,10 @@
         <script src="https://cdn.rawgit.com/streamproc/MediaStreamRecorder/master/MediaStreamRecorder.js"></script>
     </head>
     <body>
-        <div>
-            <input type="checkbox" id="delay"><label id="delaylabel" for="delay">Delay Playback</label>
-            <div id="delayAdjust" class="ui-widget ui-state-default">Delay Adjustment:</div>
+        <div id="controls-container">
+            <div id="delayAdjust" class="ui-widget ui-state-default">Delay Adjustment: <span id="seconds-display"></span>s </div>
             <div id="seconds"></div>
+            <input type="checkbox" id="delay"><label id="delaylabel" for="delay">Start Delay</label>
             <input type="checkbox" id="fullscreen"><label id="fullscreenlabel" for="fullscreen">Fullscreen</label>
         </div>
         <div id="video-container">

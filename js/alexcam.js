@@ -79,7 +79,7 @@ $(document).ready(function () {
   $('#delay').button().on('click', function () {
     if (mirror.delayed === true) {
       mirror.delayed = false;
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#delay').button('option', 'label', 'Start Delay');
       playbackVideo(mirror.stream);
     } else {
       mirror.delayed = true;
@@ -99,14 +99,14 @@ $(document).ready(function () {
     value: mirror.defaultdelay,
     create: function () {
       mirror.delay = $('#seconds').slider('option', 'value');
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#seconds-display').text(mirror.delay);
     },
     slide: function (event, ui) {
-      $('#delay').button('option', 'label', 'Delay Playback ' + ui.value + ' Seconds');
+      $('#seconds-display').text(ui.value);
     },
     change: function () {
       mirror.delay = $('#seconds').slider('option', 'value');
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#seconds-display').text(mirror.delay);
 
       // Jump to normal playback, stop the recorder, delete all previously recorded videos,
       // and then start buffering again

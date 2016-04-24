@@ -33,3 +33,8 @@ video {
 #video-container {
   clear: both;
 }
+
+#controls-container {
+  width: 800px;
+  margin: auto;
+}

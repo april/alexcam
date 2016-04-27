@@ -1,10 +1,10 @@
-/*global $, console, LocalMediaStream, MediaStreamRecorder */
+/*global $, console, MediaStream, MediaStreamRecorder */
 var mirror = {};
 
 function playbackVideo(stream) {
   'use strict';
 
-  if (stream instanceof LocalMediaStream) {
+  if (stream instanceof MediaStream) {
     mirror.video.src = window.URL.createObjectURL(stream); // initial page playback
   } else {
     mirror.video.src = mirror.recordedVideos[0]; // the unending stream of delayed videos
@@ -21,6 +21,8 @@ function recordVideo(stream) {
 
   mirror.recorder = new MediaStreamRecorder(stream); // eventually move this into the app itself
   mirror.recorder.mimeType = 'video/webm';
+  mirror.recorder.width = 640;
+  mirror.recorder.height = 480;
 
   mirror.recorder.ondataavailable = function (blob) {
     mirror.recordedVideos.push(window.URL.createObjectURL(blob));
@@ -77,7 +79,7 @@ $(document).ready(function () {
   $('#delay').button().on('click', function () {
     if (mirror.delayed === true) {
       mirror.delayed = false;
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#delay').button('option', 'label', 'Start Delay');
       playbackVideo(mirror.stream);
     } else {
       mirror.delayed = true;
@@ -86,20 +88,25 @@ $(document).ready(function () {
   });
 
   $('#fullscreen').button().on('click', function () {
-    mirror.video.mozRequestFullScreen();
+    var el = mirror.video;
+    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen;
+    rfs.call(el);
   });
 
   $('#seconds').slider({
     min: 1,
-    max: 30,
+    max: 60,
     value: mirror.defaultdelay,
     create: function () {
       mirror.delay = $('#seconds').slider('option', 'value');
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#seconds-display').text(mirror.delay);
+    },
+    slide: function (event, ui) {
+      $('#seconds-display').text(ui.value);
     },
     change: function () {
       mirror.delay = $('#seconds').slider('option', 'value');
-      $('#delay').button('option', 'label', 'Delay Playback ' + mirror.delay + ' Seconds');
+      $('#seconds-display').text(mirror.delay);
 
       // Jump to normal playback, stop the recorder, delete all previously recorded videos,
       // and then start buffering again

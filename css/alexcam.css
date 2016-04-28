@@ -22,19 +22,26 @@
   float: right;
 }
 
-video {
+#video-container {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 1em;
-  width: 800px;
+  height: 480px;
+  left: calc((100% - 640px) / 2);
+  position: absolute;
+  top: 5em;
+  width: 640px;
 }
 
-#video-container {
-  clear: both;
+video {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 #controls-container {
+  height: 3em;
   width: 800px;
   margin: auto;
 }

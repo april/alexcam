@@ -13,7 +13,6 @@
             <input type="checkbox" id="fullscreen"><label id="fullscreenlabel" for="fullscreen">Fullscreen</label>
         </div>
         <div id="video-container">
-          <video autoplay></video>
         </div>
         <script
             src="https://code.jquery.com/jquery-2.2.3.min.js"
@@ -24,7 +23,8 @@
               integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
               crossorigin="anonymous"></script>
 
-        <script src="https://cdn.rawgit.com/streamproc/MediaStreamRecorder/master/MediaStreamRecorder.min.js"></script>
+        <!-- not using a CDN, because current version has corruption issues in Firefox -->
+        <script src="js/MediaStreamRecorder.js"></script>
         <script src="js/alexcam.js"></script>
     </body>
 </html>

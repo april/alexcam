@@ -26,7 +26,6 @@ function recordVideo(stream) {
 
   mirror.recorder.ondataavailable = function (blob) {
     mirror.recordedVideos.push(window.URL.createObjectURL(blob));
-    console.log(blob);
     if (mirror.recordedVideos.length > 2) {
       window.URL.revokeObjectURL(mirror.recordedVideos[0]);
       mirror.recordedVideos.shift();

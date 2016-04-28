@@ -1004,7 +1004,7 @@ function WhammyRecorderHelper(mediaStream, root) {
 
         whammy.compile(function(whammyBlob) {
             root.ondataavailable(whammyBlob);
-            console.debug('video recorded blob size:', bytesToSize(whammyBlob.size));
+            // console.debug('video recorded blob size:', bytesToSize(whammyBlob.size));
         });
 
         whammy.frames = [];

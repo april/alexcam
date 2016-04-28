@@ -32,6 +32,9 @@
 }
 
 #disclaimer {
+  background-color: white;
+  height: 1.5em;
+  line-height: 1.5em;
   position: absolute;
   top: calc(100% - 1.5em);
 }

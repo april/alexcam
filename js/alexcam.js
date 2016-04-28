@@ -26,6 +26,7 @@ function recordVideo(stream) {
 
   mirror.recorder.ondataavailable = function (blob) {
     mirror.recordedVideos.push(window.URL.createObjectURL(blob));
+    console.log(blob);
     if (mirror.recordedVideos.length > 2) {
       window.URL.revokeObjectURL(mirror.recordedVideos[0]);
       mirror.recordedVideos.shift();
@@ -53,16 +54,15 @@ function delayedStream() {
 
 function startVideoStream() {
   'use strict';
+  var mediaPromise = navigator.mediaDevices.getUserMedia({ audio: false, video: true });
 
-  // Attempt to get ahold of the media extension (webrtc)
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
-      || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-  navigator.getUserMedia({audio: false, video: true}, function (stream) {
+  mediaPromise.then(function(stream) {
     mirror.stream = stream;
     playbackVideo(stream);
     recordVideo(stream);
-  }, function () {
+  });
+
+  mediaPromise.catch(function() {
     document.querySelector('body').innerHTML = '<p>sorry, no media support</p>';
   });
 }
@@ -70,6 +70,7 @@ function startVideoStream() {
 $(document).ready(function () {
   'use strict';
   var i;
+
   mirror.delayed = false; // set the mirror as not being delayed
   mirror.defaultdelay = 5;
   mirror.delay = mirror.defaultdelay;

@@ -45,3 +45,10 @@ video {
   width: 800px;
   margin: auto;
 }
+
+#github-ribbon {
+  border: 0;
+  right: 0;
+  position: absolute;
+  top: 0;
+}

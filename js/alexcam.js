@@ -21,14 +21,15 @@ function recordVideo(stream) {
 
   mirror.recorder = new MediaStreamRecorder(stream); // eventually move this into the app itself
   mirror.recorder.mimeType = 'video/webm';
-  mirror.recorder.width = 640;
-  mirror.recorder.height = 480;
 
   mirror.recorder.ondataavailable = function (blob) {
-    mirror.recordedVideos.push(window.URL.createObjectURL(blob));
-    if (mirror.recordedVideos.length > 2) {
-      window.URL.revokeObjectURL(mirror.recordedVideos[0]);
-      mirror.recordedVideos.shift();
+    var reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function() {
+      mirror.recordedVideos.push(reader.result);
+      if (mirror.recordedVideos.length > 2) {
+        mirror.recordedVideos.shift();
+      }
     }
   };
 
@@ -51,17 +52,40 @@ function delayedStream() {
   playbackVideo(true);
 }
 
+// function startVideoStream() {
+//   'use strict';
+  // var mediaPromise = navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+
+  // mediaPromise.then(function(stream) {
+  //   mirror.stream = stream;
+  //   playbackVideo(stream);
+  //   recordVideo(stream);
+  // });
+
+  // mediaPromise.catch(function() {
+  //   document.querySelector('body').innerHTML = '<p>sorry, no media support</p>';
+  // });
+
+  // until promises have better support
+  // Attempt to get ahold of the media extension (webrtc)
+  // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
+  //     || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+// }
+
 function startVideoStream() {
   'use strict';
-  var mediaPromise = navigator.mediaDevices.getUserMedia({ audio: false, video: true });
 
-  mediaPromise.then(function(stream) {
+  // Attempt to get ahold of the media extension (webrtc)
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+  navigator.getUserMedia({audio: false, video: true}, function (stream) {
+    console.log('success');
     mirror.stream = stream;
     playbackVideo(stream);
     recordVideo(stream);
-  });
-
-  mediaPromise.catch(function() {
+  }, function () {
+    console.log('failure');
     document.querySelector('body').innerHTML = '<p>sorry, no media support</p>';
   });
 }

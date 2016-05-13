@@ -60,6 +60,8 @@ function recordVideo() {
   // create a new MediaStreamRecorder
   mirror.recorder = new MediaStreamRecorder(mirror.stream);
   mirror.recorder.mimeType = 'video/webm';
+  mirror.recorder.width = 640;
+  mirror.recorder.height = 480;
 
   // when it's finished recording a segment, add the video to the container
   mirror.recorder.ondataavailable = function (blob) {
@@ -194,4 +196,3 @@ $(document).ready(function () {
   // load the default video stream on and request permissions, on page load
   initializeMirror();
 });
-

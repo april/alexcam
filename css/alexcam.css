@@ -25,10 +25,13 @@
 #video-container {
   display: block;
   height: 480px;
-  left: calc((100% - 640px) / 2);
-  position: absolute;
-  top: 5em;
   width: 640px;
+  margin: auto;
+  position: relative;
+}
+#video-container:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
 }
 
 #disclaimer {
